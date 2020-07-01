@@ -1,9 +1,21 @@
-import React from 'react';
-import { Card, Image } from 'semantic-ui-react';
+import React, { useEffect, useState } from 'react';
+import { Card, Image, Progress } from 'semantic-ui-react';
+
+import { expiresIn } from 'utils/date';
 
 const Product = ({ product: { name, createdAt, expires } }) => {
+    const [percent, setPercent] = useState(null);
+
+    useEffect(() => {
+        const daysToExpiration = expiresIn(expires);
+
+        // eslint-disable-next-line no-unused-expressions
+        daysToExpiration >= 10
+            ? setPercent(100)
+            : setPercent(daysToExpiration * 10);
+    }, [expires]);
+
     const creationDate = new Date(createdAt).toLocaleDateString();
-    const expirationDate = new Date(expires).toLocaleDateString();
 
     return (
         <Card>
@@ -15,14 +27,11 @@ const Product = ({ product: { name, createdAt, expires } }) => {
             <Card.Content>
                 <Card.Header>{name}</Card.Header>
                 <Card.Meta>
-                    <span className="date">Bought {creationDate}</span>
-                </Card.Meta>
-                <Card.Meta>
-                    <span className="date">Expires {expirationDate}</span>
+                    <span className="date">Bought - {creationDate}</span>
                 </Card.Meta>
             </Card.Content>
             <Card.Content extra>
-                <p> Expiration bar </p>
+                <Progress percent={percent} indicating />
                 <p> Delete product </p>
             </Card.Content>
         </Card>
