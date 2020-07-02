@@ -34,7 +34,11 @@ const Home = () => {
                 ) : (
                     data.getProducts &&
                     data.getProducts.map(product => (
-                        <Grid.Column key={product.id} width={4}>
+                        <Grid.Column
+                            key={product.id}
+                            width={4}
+                            style={{ marginBottom: 10 }}
+                        >
                             <Product product={product} />
                         </Grid.Column>
                     ))

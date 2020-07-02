@@ -1,9 +1,23 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Card, Responsive, Image, Progress } from 'semantic-ui-react';
 
 import { expiresIn } from 'utils/date';
 
 const Product = ({ product: { name, createdAt, expires } }) => {
+    const [productImage, setImage] = useState('');
+
+    useEffect(() => {
+        fetch(
+            `https://pixabay.com/api/?key=${process.env.REACT_APP_PIXABAY_KEY}&q=${name}&image_type=photo&min_height:200`,
+        )
+            .then(res => res.json())
+            .then(({ hits }) => {
+                if (hits.length > 0) {
+                    setImage(hits[0].webformatURL);
+                }
+            });
+    });
+
     const daysToExpiration = expiresIn(expires);
     const creationDate = new Date(createdAt).toLocaleDateString();
 
@@ -13,16 +27,16 @@ const Product = ({ product: { name, createdAt, expires } }) => {
                 <Responsive
                     {...Responsive.onlyMobile}
                     as={Image}
-                    src="https://source.unsplash.com/600x600/?tomato"
+                    src={productImage}
                     floated="left"
                     size="mini"
                 />
                 <Responsive
                     minWidth={Responsive.onlyTablet.minWidth}
                     as={Image}
-                    src="https://source.unsplash.com/600x600/?banana"
-                    style={{ marginBottom: 10 }}
-                    wrapped
+                    src={productImage}
+                    style={{ marginBottom: 10, maxHeight: 150 }}
+                    size="medium"
                 />
                 <Card.Header>{name}</Card.Header>
                 <Card.Meta>
