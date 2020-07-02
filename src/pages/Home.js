@@ -24,7 +24,7 @@ const Home = () => {
     const { loading, data } = useQuery(FETCH_PRODUCTS_QUERY);
 
     return (
-        <Grid columns={3}>
+        <Grid stackable columns="equal">
             <Grid.Row>
                 <h1>All Products</h1>
             </Grid.Row>
@@ -34,7 +34,7 @@ const Home = () => {
                 ) : (
                     data.getProducts &&
                     data.getProducts.map(product => (
-                        <Grid.Column key={product.id}>
+                        <Grid.Column key={product.id} width={4}>
                             <Product product={product} />
                         </Grid.Column>
                     ))
