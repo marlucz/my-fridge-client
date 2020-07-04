@@ -5,7 +5,7 @@ import { useMutation } from '@apollo/react-hooks';
 import gql from 'graphql-tag';
 
 import { AuthContext } from 'context/auth';
-import { useForm } from 'utils/hooks';
+import { useForm } from 'hooks/useForm';
 
 const Wrapper = styled.div`
     width: 100%;

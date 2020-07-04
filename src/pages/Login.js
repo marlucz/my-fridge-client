@@ -4,7 +4,7 @@ import styled from 'styled-components';
 import { useMutation } from '@apollo/react-hooks';
 import gql from 'graphql-tag';
 
-import { useForm } from 'utils/hooks';
+import { useForm } from 'hooks/useForm';
 import { AuthContext } from 'context/auth';
 
 const Wrapper = styled.div`
