@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import ApolloPovider from 'ApolloProvider';
+import ApolloPovider from 'graphql/ApolloProvider';
 import * as serviceWorker from './serviceWorker';
 
 ReactDOM.render(<ApolloPovider />, document.getElementById('root'));

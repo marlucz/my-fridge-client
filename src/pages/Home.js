@@ -1,24 +1,10 @@
 import React from 'react';
 import { useQuery } from '@apollo/react-hooks';
-import gql from 'graphql-tag';
 import { Grid } from 'semantic-ui-react';
 
 import Product from 'components/Product/Product';
 
-const FETCH_PRODUCTS_QUERY = gql`
-    {
-        getProducts {
-            id
-            name
-            quantity
-            unit
-            username
-            createdAt
-            expires
-            tag
-        }
-    }
-`;
+import { FETCH_PRODUCTS_QUERY } from 'graphql/queries';
 
 const Home = () => {
     const { loading, data } = useQuery(FETCH_PRODUCTS_QUERY);

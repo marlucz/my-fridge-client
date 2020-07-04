@@ -2,39 +2,16 @@ import React, { useState, useContext } from 'react';
 import { Form, Button, Message } from 'semantic-ui-react';
 import styled from 'styled-components';
 import { useMutation } from '@apollo/react-hooks';
-import gql from 'graphql-tag';
 
 import { AuthContext } from 'context/auth';
 import { useForm } from 'hooks/useForm';
+
+import { REGISTER_USER } from 'graphql/mutations';
 
 const Wrapper = styled.div`
     width: 100%;
     max-width: 400px;
     margin: auto;
-`;
-
-const REGISTER_USER = gql`
-    mutation register(
-        $username: String!
-        $email: String!
-        $password: String!
-        $passwordConfirm: String!
-    ) {
-        register(
-            registerInput: {
-                username: $username
-                email: $email
-                password: $password
-                passwordConfirm: $passwordConfirm
-            }
-        ) {
-            id
-            email
-            username
-            createdAt
-            token
-        }
-    }
 `;
 
 const Register = props => {

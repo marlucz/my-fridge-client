@@ -2,27 +2,16 @@ import React, { useState, useContext } from 'react';
 import { Form, Button, Message } from 'semantic-ui-react';
 import styled from 'styled-components';
 import { useMutation } from '@apollo/react-hooks';
-import gql from 'graphql-tag';
 
 import { useForm } from 'hooks/useForm';
 import { AuthContext } from 'context/auth';
+
+import { LOGIN_USER } from 'graphql/mutations';
 
 const Wrapper = styled.div`
     width: 100%;
     max-width: 400px;
     margin: auto;
-`;
-
-const LOGIN_USER = gql`
-    mutation login($username: String!, $password: String!) {
-        login(username: $username, password: $password) {
-            id
-            email
-            username
-            createdAt
-            token
-        }
-    }
 `;
 
 const Login = props => {
