@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
 import { Card, Responsive, Image, Progress } from 'semantic-ui-react';
 
 import { expiresIn } from 'utils/date';
 
-const Product = ({ product: { name, createdAt, expires } }) => {
+const Product = ({ product: { id, name, createdAt, expires } }) => {
     const [productImage, setImage] = useState('');
 
     useEffect(() => {
@@ -38,7 +39,9 @@ const Product = ({ product: { name, createdAt, expires } }) => {
                     style={{ marginBottom: 10, maxHeight: 150 }}
                     size="medium"
                 />
-                <Card.Header>{name}</Card.Header>
+                <Card.Header as={Link} to={`/products/${id}`}>
+                    {name}
+                </Card.Header>
                 <Card.Meta>
                     <span className="date">Bought - {creationDate}</span>
                 </Card.Meta>
