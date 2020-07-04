@@ -1,10 +1,11 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { Form, Button, Message } from 'semantic-ui-react';
 import styled from 'styled-components';
 import { useMutation } from '@apollo/react-hooks';
 import gql from 'graphql-tag';
 
 import { useForm } from 'utils/hooks';
+import { AuthContext } from 'context/auth';
 
 const Wrapper = styled.div`
     width: 100%;
@@ -25,6 +26,7 @@ const LOGIN_USER = gql`
 `;
 
 const Login = props => {
+    const context = useContext(AuthContext);
     const [errors, setErrors] = useState({});
     const initState = {
         username: '',
@@ -36,7 +38,8 @@ const Login = props => {
 
     const [loginUser, { loading }] = useMutation(LOGIN_USER, {
         // eslint-disable-next-line
-        update(_, result) {
+        update(_, { data: { login: userData } }) {
+            context.login(userData);
             props.history.push('/');
         },
 
