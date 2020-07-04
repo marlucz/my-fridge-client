@@ -4,6 +4,8 @@ import styled from 'styled-components';
 import { useMutation } from '@apollo/react-hooks';
 import gql from 'graphql-tag';
 
+import { useForm } from 'utils/hooks';
+
 const Wrapper = styled.div`
     width: 100%;
     max-width: 400px;
@@ -35,13 +37,17 @@ const REGISTER_USER = gql`
 `;
 
 const Register = props => {
-    const [errors, setErrors] = useState({});
-    const [values, setValues] = useState({
+    const initState = {
         username: '',
         email: '',
         password: '',
         passwordConfirm: '',
-    });
+    };
+
+    const [errors, setErrors] = useState({});
+
+    // eslint-disable-next-line
+    const { onChange, onSubmit, values } = useForm(registerUser, initState);
 
     const [addUser, { loading }] = useMutation(REGISTER_USER, {
         // eslint-disable-next-line
@@ -56,15 +62,9 @@ const Register = props => {
         variables: values,
     });
 
-    const onChange = e => {
-        setValues({ ...values, [e.target.name]: e.target.value });
-    };
-
-    const onSubmit = e => {
-        e.preventDefault();
-
+    function registerUser() {
         addUser();
-    };
+    }
 
     return (
         <Wrapper>
