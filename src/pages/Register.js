@@ -37,14 +37,13 @@ const REGISTER_USER = gql`
 `;
 
 const Register = props => {
+    const [errors, setErrors] = useState({});
     const initState = {
         username: '',
         email: '',
         password: '',
         passwordConfirm: '',
     };
-
-    const [errors, setErrors] = useState({});
 
     // eslint-disable-next-line
     const { onChange, onSubmit, values } = useForm(registerUser, initState);
