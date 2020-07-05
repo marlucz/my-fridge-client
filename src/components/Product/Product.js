@@ -67,8 +67,9 @@ const Product = ({ product: { id, name, createdAt, expires } }) => {
                     style={{ marginBottom: 10 }}
                 />
                 <p>
-                    {daysToExpiration} {daysToExpiration > 1 ? 'days' : 'day'}{' '}
-                    left
+                    {daysToExpiration < 1 && 'Expired'}
+                    {daysToExpiration === 1 && `${daysToExpiration} day left`}
+                    {daysToExpiration > 1 && `${daysToExpiration} days left`}
                 </p>
             </Card.Content>
         </Card>

@@ -15,6 +15,21 @@ export const FETCH_PRODUCTS = gql`
     }
 `;
 
+export const FETCH_PRODUCTS_EXPIRED = gql`
+    {
+        getProductsExpired {
+            id
+            name
+            quantity
+            unit
+            username
+            createdAt
+            expires
+            tag
+        }
+    }
+`;
+
 export const FETCH_TAGS = gql`
     {
         getTags {

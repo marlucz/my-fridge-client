@@ -9,6 +9,7 @@ import {
     FETCH_TAGS,
     FETCH_PRODUCTS,
     FETCH_PRODUCTS_BY_TAG,
+    FETCH_PRODUCTS_EXPIRED,
 } from 'graphql/queries';
 
 const StyledMenuItem = styled(Menu.Item)`
@@ -28,9 +29,7 @@ const Home = () => {
         if (name === 'all') {
             setQuery(FETCH_PRODUCTS);
         } else if (name === 'expired') {
-            // to be done on server side
-            // setQuery(FETCH_EXPIRED_PRODUCTS);
-            setQuery(FETCH_PRODUCTS);
+            setQuery(FETCH_PRODUCTS_EXPIRED);
         }
         setActive(name);
     };
