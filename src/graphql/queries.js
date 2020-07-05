@@ -1,6 +1,6 @@
 import gql from 'graphql-tag';
 
-export const FETCH_PRODUCTS_QUERY = gql`
+export const FETCH_PRODUCTS = gql`
     {
         getProducts {
             id
@@ -31,6 +31,21 @@ export const FETCH_TAGS = gql`
                 expires
                 tag
             }
+        }
+    }
+`;
+
+export const FETCH_PRODUCTS_BY_TAG = gql`
+    query($tagId: ID!) {
+        getProductsByTag(tagId: $tagId) {
+            id
+            name
+            quantity
+            unit
+            username
+            createdAt
+            expires
+            tag
         }
     }
 `;

@@ -4,12 +4,10 @@ import { Grid } from 'semantic-ui-react';
 
 import Product from 'components/Product/Product';
 
-import { FETCH_PRODUCTS_QUERY } from 'graphql/queries';
-
-const Home = () => {
-    const { loading, data: { getProducts: products } = {} } = useQuery(
-        FETCH_PRODUCTS_QUERY,
-    );
+const Home = ({ query, tagId }) => {
+    const { loading, data } = useQuery(query, {
+        variables: { tagId },
+    });
 
     return (
         <div>
@@ -17,9 +15,8 @@ const Home = () => {
                 <Grid.Row>
                     {loading ? (
                         <h1>Loading products...</h1>
-                    ) : (
-                        products &&
-                        products.map(product => (
+                    ) : data && data[Object.keys(data)[0]].length > 0 ? (
+                        data[Object.keys(data)[0]].map(product => (
                             <Grid.Column
                                 key={product.id}
                                 width={4}
@@ -28,6 +25,11 @@ const Home = () => {
                                 <Product product={product} />
                             </Grid.Column>
                         ))
+                    ) : (
+                        <h1>
+                            {' '}
+                            You don&apos;t have any products in this category
+                        </h1>
                     )}
                 </Grid.Row>
             </Grid>

@@ -12,6 +12,7 @@
         "fetch": true
     },
     "rules": {
+        "no-nested-ternary": 0,
         "no-plusplus": 0,
         "no-underscore-dangle": 0,
         "react/prop-types": 0,

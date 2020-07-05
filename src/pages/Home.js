@@ -5,7 +5,11 @@ import { useQuery } from '@apollo/react-hooks';
 import { Grid, Menu, Segment } from 'semantic-ui-react';
 import Products from 'components/Products/Products';
 
-import { FETCH_TAGS } from 'graphql/queries';
+import {
+    FETCH_TAGS,
+    FETCH_PRODUCTS,
+    FETCH_PRODUCTS_BY_TAG,
+} from 'graphql/queries';
 
 const StyledMenuItem = styled(Menu.Item)`
     a {
@@ -15,9 +19,27 @@ const StyledMenuItem = styled(Menu.Item)`
 
 const Home = () => {
     const { loading, data: { getTags: tags } = {} } = useQuery(FETCH_TAGS);
-
+    const [query, setQuery] = useState(FETCH_PRODUCTS);
+    const [tagId, setTagId] = useState(null);
     const [active, setActive] = useState('all');
-    const handleItemClick = (e, { name }) => setActive(name);
+
+    const handleStaticItemClick = (e, { name }) => {
+        setTagId(null);
+        if (name === 'all') {
+            setQuery(FETCH_PRODUCTS);
+        } else if (name === 'expired') {
+            // to be done on server side
+            // setQuery(FETCH_EXPIRED_PRODUCTS);
+            setQuery(FETCH_PRODUCTS);
+        }
+        setActive(name);
+    };
+
+    const handleItemClick = (e, { name, tagid }) => {
+        setTagId(tagid);
+        setQuery(FETCH_PRODUCTS_BY_TAG);
+        setActive(name);
+    };
 
     return (
         <Grid stackable columns="equal">
@@ -26,7 +48,7 @@ const Home = () => {
                     <StyledMenuItem
                         name="all"
                         active={active === 'all'}
-                        onClick={handleItemClick}
+                        onClick={handleStaticItemClick}
                     />
                     {loading ? (
                         <h1>Loading tags...</h1>
@@ -35,6 +57,7 @@ const Home = () => {
                         tags.map(tag => (
                             <Menu.Item
                                 key={tag.id}
+                                tagid={tag.id}
                                 name={tag.name}
                                 active={active === tag.name}
                                 onClick={handleItemClick}
@@ -44,11 +67,11 @@ const Home = () => {
                     <Menu.Item
                         name="expired"
                         active={active === 'expired'}
-                        onClick={handleItemClick}
+                        onClick={handleStaticItemClick}
                     />
                 </Menu>
                 <Segment attached="bottom">
-                    <Products active={active} />
+                    <Products query={query} tagId={tagId} />
                 </Segment>
             </Grid.Row>
         </Grid>
