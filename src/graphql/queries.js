@@ -14,3 +14,23 @@ export const FETCH_PRODUCTS_QUERY = gql`
         }
     }
 `;
+
+export const FETCH_TAGS = gql`
+    {
+        getTags {
+            id
+            name
+            username
+            products {
+                id
+                name
+                quantity
+                unit
+                username
+                createdAt
+                expires
+                tag
+            }
+        }
+    }
+`;
