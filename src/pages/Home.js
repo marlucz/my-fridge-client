@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 import { useQuery } from '@apollo/react-hooks';
 
-import { Grid, Menu, Segment } from 'semantic-ui-react';
+import { Dropdown, Grid, Menu, Segment, Input } from 'semantic-ui-react';
 import Products from 'components/Products/Products';
 
 import {
@@ -12,10 +12,9 @@ import {
     FETCH_PRODUCTS_EXPIRED,
 } from 'graphql/queries';
 
-const StyledMenuItem = styled(Menu.Item)`
-    a {
-        text-transform: capitalize;
-    }
+const StyledGrid = styled(Grid)`
+    margin: auto !important;
+    max-width: 100%;
 `;
 
 const Home = () => {
@@ -41,39 +40,58 @@ const Home = () => {
     };
 
     return (
-        <Grid stackable columns="equal">
+        <StyledGrid stackable columns="equal">
             <Grid.Row>
-                <Menu attached="top" tabular>
-                    <StyledMenuItem
-                        name="all"
-                        active={active === 'all'}
-                        onClick={handleStaticItemClick}
-                    />
-                    {loading ? (
-                        <h1>Loading tags...</h1>
-                    ) : (
-                        tags !== undefined &&
-                        tags.map(tag => (
-                            <Menu.Item
-                                key={tag.id}
-                                tagid={tag.id}
-                                name={tag.name}
-                                active={active === tag.name}
-                                onClick={handleItemClick}
-                            />
-                        ))
-                    )}
-                    <Menu.Item
-                        name="expired"
-                        active={active === 'expired'}
-                        onClick={handleStaticItemClick}
-                    />
+                <Menu attached="top">
+                    <Dropdown
+                        item
+                        text={active}
+                        style={{ textTransform: 'capitalize' }}
+                    >
+                        <Dropdown.Menu>
+                            <Dropdown.Item
+                                name="all"
+                                active={active === 'all'}
+                                onClick={handleStaticItemClick}
+                            >
+                                All
+                            </Dropdown.Item>
+                            {loading ? (
+                                <h1>Loading tags...</h1>
+                            ) : (
+                                tags !== undefined &&
+                                tags.map(tag => (
+                                    <Dropdown.Item
+                                        key={tag.id}
+                                        tagid={tag.id}
+                                        name={tag.name}
+                                        active={active === tag.name}
+                                        onClick={handleItemClick}
+                                    >
+                                        {tag.name}
+                                    </Dropdown.Item>
+                                ))
+                            )}
+                            <Dropdown.Item
+                                name="expired"
+                                active={active === 'expired'}
+                                onClick={handleStaticItemClick}
+                            >
+                                Expired
+                            </Dropdown.Item>
+                        </Dropdown.Menu>
+                    </Dropdown>
+                    <Menu.Menu position="right">
+                        <Menu.Item>
+                            <Input icon="plus" placeholder="Add category" />
+                        </Menu.Item>
+                    </Menu.Menu>
                 </Menu>
                 <Segment attached="bottom">
                     <Products query={query} tagId={tagId} />
                 </Segment>
             </Grid.Row>
-        </Grid>
+        </StyledGrid>
     );
 };
 

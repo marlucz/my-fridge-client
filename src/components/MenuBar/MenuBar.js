@@ -15,26 +15,14 @@ const MenuBar = () => {
     const handleItemClick = (e, { name }) => setActiveItem(name);
 
     const menuBar = user ? (
-        <Menu
-            pointing
-            secondary
-            size="huge"
-            color="green"
-            style={{ marginBottom: 20 }}
-        >
+        <Menu size="huge" color="green" style={{ marginBottom: 20 }}>
             <Menu.Item name={user.username} active as={Link} to="/" />
             <Menu.Menu position="right">
                 <Menu.Item name="logout" onClick={logout} />
             </Menu.Menu>
         </Menu>
     ) : (
-        <Menu
-            pointing
-            secondary
-            size="huge"
-            color="green"
-            style={{ marginBottom: 20 }}
-        >
+        <Menu size="huge" color="green" style={{ marginBottom: 20 }}>
             <Menu.Item
                 name="home"
                 active={activeItem === 'home'}
