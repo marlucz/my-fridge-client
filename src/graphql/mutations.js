@@ -35,3 +35,13 @@ export const REGISTER_USER = gql`
         }
     }
 `;
+
+export const CREATE_TAG = gql`
+    mutation createTag($name: String!) {
+        createTag(name: $name) {
+            id
+            name
+            username
+        }
+    }
+`;
