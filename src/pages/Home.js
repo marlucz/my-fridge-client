@@ -2,8 +2,9 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 import { useQuery } from '@apollo/react-hooks';
 
-import { Dropdown, Grid, Menu, Segment, Input } from 'semantic-ui-react';
+import { Dropdown, Grid, Menu, Segment } from 'semantic-ui-react';
 import Products from 'components/Products/Products';
+import TagForm from 'components/TagForm/TagForm';
 
 import {
     FETCH_TAGS,
@@ -83,7 +84,7 @@ const Home = () => {
                     </Dropdown>
                     <Menu.Menu position="right">
                         <Menu.Item>
-                            <Input icon="plus" placeholder="Add category" />
+                            <TagForm />
                         </Menu.Item>
                     </Menu.Menu>
                 </Menu>
