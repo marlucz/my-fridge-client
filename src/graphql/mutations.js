@@ -42,6 +42,9 @@ export const CREATE_TAG = gql`
             id
             name
             username
+            products {
+                name
+            }
         }
     }
 `;

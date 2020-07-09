@@ -39,12 +39,6 @@ export const FETCH_TAGS = gql`
             products {
                 id
                 name
-                quantity
-                unit
-                username
-                createdAt
-                expires
-                tag
             }
         }
     }

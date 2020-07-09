@@ -5,6 +5,7 @@ import { useMutation } from '@apollo/react-hooks';
 import { useForm } from 'hooks/useForm';
 
 import { CREATE_TAG } from 'graphql/mutations';
+import { FETCH_TAGS } from 'graphql/queries';
 
 const TagForm = () => {
     const initState = {
@@ -16,24 +17,31 @@ const TagForm = () => {
 
     // eslint-disable-next-line
     const [createTag, { error }] = useMutation(CREATE_TAG, {
-        update(_, result) {
-            console.log(result);
-            values.name = '';
-        },
         variables: values,
+        update(proxy, result) {
+            const data = proxy.readQuery({
+                query: FETCH_TAGS,
+            });
+            proxy.writeQuery({
+                query: FETCH_TAGS,
+                data: {
+                    getTags: [...data.getTags, result.data.createTag],
+                },
+            });
+        },
     });
 
     function createTagCb() {
         createTag();
+        values.name = '';
     }
 
     return (
         <Form onSubmit={onSubmit}>
             <Form.Field>
-                <Input action>
+                <Input action error={!!error}>
                     <input
                         name="name"
-                        type="text"
                         onChange={onChange}
                         value={values.name}
                         placeholder="Add tag"
