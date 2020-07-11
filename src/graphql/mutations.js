@@ -48,3 +48,30 @@ export const CREATE_TAG = gql`
         }
     }
 `;
+
+export const CREATE_PRODUCT = gql`
+    mutation createProduct(
+        $name: String!
+        $quantity: Float!
+        $unit: String!
+        $expires: String!
+        $tag: ID!
+    ) {
+        createProduct(
+            name: $name
+            quantity: $quantity
+            unit: $unit
+            expires: $expires
+            tag: $tag
+        ) {
+            id
+            name
+            username
+            quantity
+            unit
+            createdAt
+            expires
+            tag
+        }
+    }
+`;
