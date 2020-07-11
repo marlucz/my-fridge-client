@@ -15,6 +15,16 @@ const Wrapper = styled.div`
     margin: auto;
 `;
 
+const StyledHeader = styled.h2`
+    font-size: 1.5em;
+    margin: 0;
+`;
+
+const InlineWrapper = styled.div`
+    display: flex;
+    justify-content: space-between;
+`;
+
 const StyledDateInput = styled(Form.Input)`
     input {
         color: gray;
@@ -56,11 +66,22 @@ const ProductForm = ({ client }) => {
             query: FETCH_TAGS,
         });
 
-        setTags(getTags);
+        // rewrite tags array to be readable for Form.Select
+        const tagArr = getTags.map(tag => {
+            return {
+                key: tag.id,
+                text: tag.name,
+                value: tag.id,
+            };
+        });
+        setTags(tagArr);
     }
 
-    // eslint-disable-next-line
-    const { onChange, onSubmit, values } = useForm(createProductCb, initState);
+    const { onChange, onSelectChange, onSubmit, values } = useForm(
+        // eslint-disable-next-line no-use-before-define
+        createProductCb,
+        initState,
+    );
 
     const [createProduct] = useMutation(CREATE_PRODUCT, {
         // eslint-disable-next-line
@@ -91,66 +112,77 @@ const ProductForm = ({ client }) => {
     }
 
     return (
-        <Wrapper>
-            <Form onSubmit={onSubmit}>
-                <h2 style={{ fontSize: `1.5rem` }}>Add Product</h2>
-                <Form.Input
-                    type="text"
-                    placeholder="Name"
-                    name="name"
-                    value={values.name}
-                    error={!!errors.name}
-                    onChange={onChange}
-                />
-                <Form.Group widths="equal">
-                    <Form.Input
-                        type="number"
-                        placeholder="Quantity"
-                        name="quantity"
-                        value={values.quantity}
-                        error={!!errors.quantity}
-                        onChange={onChange}
-                    />
+        <>
+            {tags ? (
+                <Wrapper>
+                    <Form onSubmit={onSubmit}>
+                        <Form.Input
+                            type="text"
+                            placeholder="Name"
+                            name="name"
+                            value={values.name}
+                            error={!!errors.name}
+                            onChange={onChange}
+                        />
+                        <Form.Group widths="equal">
+                            <Form.Input
+                                type="number"
+                                placeholder="Quantity"
+                                name="quantity"
+                                value={values.quantity}
+                                error={!!errors.quantity}
+                                onChange={onChange}
+                                fluid
+                            />
 
-                    <Form.Input
-                        type="text"
-                        placeholder="Unit"
-                        name="unit"
-                        value={values.unit}
-                        error={!!errors.unit}
-                        onChange={onChange}
-                    />
-                </Form.Group>
-                <StyledDateInput
-                    type="date"
-                    placeholder="Expires"
-                    name="expires"
-                    value={values.expires}
-                    error={!!errors.expires}
-                    onChange={onChange}
-                />
-                <Form.Input
-                    type="text"
-                    placeholder="Unit"
-                    name="unit"
-                    value={values.unit}
-                    error={!!errors.unit}
-                    onChange={onChange}
-                />
-                <Button type="submit" positive icon>
-                    <Icon name="plus" />
-                </Button>
-            </Form>
-            {Object.keys(errors).length > 0 && (
-                <Message
-                    error
-                    header="Please verify your inputs"
-                    list={Object.values(errors).map(value => (
-                        <li key={value}>{value}</li>
-                    ))}
-                />
+                            <Form.Input
+                                type="text"
+                                placeholder="Unit"
+                                name="unit"
+                                value={values.unit}
+                                error={!!errors.unit}
+                                onChange={onChange}
+                                fluid
+                            />
+                        </Form.Group>
+                        <StyledDateInput
+                            type="date"
+                            placeholder="Expires"
+                            name="expires"
+                            value={values.expires}
+                            error={!!errors.expires}
+                            onChange={onChange}
+                        />
+                        <Form.Select
+                            placeholder="Tag"
+                            name="tag"
+                            error={!!errors.unit}
+                            onChange={(e, { value, name }) =>
+                                onSelectChange(name, value)
+                            }
+                            options={tags}
+                        />
+                        <InlineWrapper>
+                            <StyledHeader>Add Product</StyledHeader>
+                            <Button type="submit" positive icon>
+                                <Icon name="plus" />
+                            </Button>
+                        </InlineWrapper>
+                    </Form>
+                    {Object.keys(errors).length > 0 && (
+                        <Message
+                            error
+                            header="Please verify your inputs"
+                            list={Object.values(errors).map(value => (
+                                <li key={value}>{value}</li>
+                            ))}
+                        />
+                    )}
+                </Wrapper>
+            ) : (
+                'Loading tags...'
             )}
-        </Wrapper>
+        </>
     );
 };
 

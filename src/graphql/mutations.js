@@ -58,11 +58,13 @@ export const CREATE_PRODUCT = gql`
         $tag: ID!
     ) {
         createProduct(
-            name: $name
-            quantity: $quantity
-            unit: $unit
-            expires: $expires
-            tag: $tag
+            productInput: {
+                name: $name
+                quantity: $quantity
+                unit: $unit
+                expires: $expires
+                tag: $tag
+            }
         ) {
             id
             name

@@ -32,7 +32,6 @@ const TagForm = () => {
     const [createTag] = useMutation(CREATE_TAG, {
         variables: values,
         update(proxy, result) {
-            console.log(proxy);
             const data = proxy.readQuery({
                 query: FETCH_TAGS,
             });
