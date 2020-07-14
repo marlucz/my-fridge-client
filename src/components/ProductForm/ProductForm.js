@@ -6,6 +6,8 @@ import { useMutation } from '@apollo/react-hooks';
 import { useForm } from 'hooks/useForm';
 import withClient from 'hoc/withClient';
 
+import Spinner from 'components/Spinner/Spinner';
+
 import { CREATE_PRODUCT } from 'graphql/mutations';
 import { FETCH_PRODUCTS, FETCH_TAGS } from 'graphql/queries';
 
@@ -180,7 +182,7 @@ const ProductForm = ({ client }) => {
                     )}
                 </Wrapper>
             ) : (
-                'Loading tags...'
+                <Spinner />
             )}
         </>
     );

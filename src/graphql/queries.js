@@ -1,5 +1,20 @@
 import gql from 'graphql-tag';
 
+export const FETCH_PRODUCT = gql`
+    query($productId: ID!) {
+        getProduct(productId: $productId) {
+            id
+            name
+            quantity
+            unit
+            username
+            createdAt
+            expires
+            tag
+        }
+    }
+`;
+
 export const FETCH_PRODUCTS = gql`
     {
         getProducts {

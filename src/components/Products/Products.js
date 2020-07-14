@@ -2,6 +2,7 @@ import React from 'react';
 import { useQuery } from '@apollo/react-hooks';
 import { Grid } from 'semantic-ui-react';
 
+import Spinner from 'components/Spinner/Spinner';
 import Product from 'components/Product/Product';
 import ProductForm from 'components/ProductForm/ProductForm';
 
@@ -15,7 +16,7 @@ const Home = ({ query, tagId }) => {
             <Grid stackable columns="equal">
                 <Grid.Row>
                     {loading ? (
-                        <h1>Loading products...</h1>
+                        <Spinner />
                     ) : data && data[Object.keys(data)[0]].length > 0 ? (
                         data[Object.keys(data)[0]].map(product => (
                             <Grid.Column
