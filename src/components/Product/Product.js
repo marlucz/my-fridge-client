@@ -4,7 +4,9 @@ import { Card, Responsive, Image, Progress } from 'semantic-ui-react';
 
 import { expiresIn } from 'utils/date';
 
-const Product = ({ product: { id, name, createdAt, expires } }) => {
+const Product = ({
+    product: { id, name, createdAt, expires, quantity, unit },
+}) => {
     const [productImage, setImage] = useState('');
 
     useEffect(() => {
@@ -43,7 +45,12 @@ const Product = ({ product: { id, name, createdAt, expires } }) => {
                     {name}
                 </Card.Header>
                 <Card.Meta>
-                    <span className="date">Bought - {creationDate}</span>
+                    <span>Bought - {creationDate}</span>
+                </Card.Meta>
+                <Card.Meta>
+                    <span>
+                        x{quantity} {unit}
+                    </span>
                 </Card.Meta>
             </Card.Content>
             <Card.Content style={{ paddingTop: 10 }}>
