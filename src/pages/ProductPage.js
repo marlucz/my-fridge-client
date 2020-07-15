@@ -1,18 +1,45 @@
 import React, { useState } from 'react';
-import { useQuery } from '@apollo/react-hooks';
-import { Card, Grid, Image, Responsive, Progress } from 'semantic-ui-react';
+import { useQuery, useMutation } from '@apollo/react-hooks';
+import {
+    Card,
+    Grid,
+    Image,
+    Responsive,
+    Progress,
+    Input,
+    Button,
+    Icon,
+    Confirm,
+} from 'semantic-ui-react';
 
 import Spinner from 'components/Spinner/Spinner';
 
 import { expiresIn } from 'utils/date';
 
 import { FETCH_PRODUCT } from 'graphql/queries';
+import { DELETE_PRODUCT } from 'graphql/mutations';
 
 const ProductPage = props => {
-    const [productImage, setImage] = useState('');
-
     // eslint-disable-next-line react/destructuring-assignment
     const { productId } = props.match.params;
+    const [productImage, setImage] = useState('');
+    const [value, setValue] = useState('');
+    const [isOpen, setOpen] = useState(false);
+
+    const onChange = e => {
+        setValue(parseFloat(e.target.value));
+    };
+
+    const [deleteProduct] = useMutation(DELETE_PRODUCT, {
+        update() {
+            setOpen(false);
+            setValue('');
+        },
+        variables: {
+            productId,
+            quantity: value,
+        },
+    });
 
     const { loading, data: { getProduct } = {} } = useQuery(FETCH_PRODUCT, {
         variables: {
@@ -89,6 +116,29 @@ const ProductPage = props => {
                                 {daysToExpiration > 1 &&
                                     `${daysToExpiration} days left`}
                             </p>
+                            <Input action fluid>
+                                <input
+                                    name="name"
+                                    type="number"
+                                    onChange={onChange}
+                                    value={value}
+                                    placeholder="Amount of product to be removed"
+                                />
+                                <Button
+                                    type="submit"
+                                    negative
+                                    icon
+                                    onClick={() => setOpen(true)}
+                                >
+                                    <Icon name="tag" />
+                                </Button>
+                            </Input>
+                            <Confirm
+                                open={isOpen}
+                                content={`You are going to remove ${value} ${unit} of ${name} from your fridge`}
+                                onCancel={() => setOpen(false)}
+                                onConfirm={deleteProduct}
+                            />
                         </Card.Content>
                     </Card>
                 </Grid.Column>
