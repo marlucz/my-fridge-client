@@ -77,3 +77,9 @@ export const CREATE_PRODUCT = gql`
         }
     }
 `;
+
+export const DELETE_PRODUCT = gql`
+    mutation deleteProduct($productId: ID!, $quantity: Float!) {
+        deleteProduct(productId: $productId, quantity: $quantity)
+    }
+`;
