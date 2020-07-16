@@ -16,7 +16,7 @@ import Spinner from 'components/Spinner/Spinner';
 
 import { expiresIn } from 'utils/date';
 
-import { FETCH_PRODUCT } from 'graphql/queries';
+import { FETCH_PRODUCT, FETCH_PRODUCTS } from 'graphql/queries';
 import { DELETE_PRODUCT, CONSUME_PRODUCT } from 'graphql/mutations';
 
 const ProductPage = props => {
@@ -31,23 +31,43 @@ const ProductPage = props => {
     };
 
     const [deleteProduct] = useMutation(DELETE_PRODUCT, {
-        update() {
-            setOpen(false);
-            props.history.push('/');
-        },
         variables: {
             productId,
+        },
+        update(proxy) {
+            setOpen(false);
+            const data = proxy.readQuery({
+                query: FETCH_PRODUCTS,
+            });
+            data.getProducts = data.getProducts.filter(
+                el => el.id !== productId,
+            );
+            proxy.writeQuery({
+                query: FETCH_PRODUCTS,
+                data,
+            });
+            props.history.push('/');
         },
     });
 
     const [consumeProduct] = useMutation(CONSUME_PRODUCT, {
-        update() {
-            setOpen(false);
-            setValue('');
-        },
         variables: {
             productId,
             quantity: value,
+        },
+        update(proxy, result) {
+            setOpen(false);
+            const data = proxy.readQuery({
+                query: FETCH_PRODUCT,
+                variables: { productId },
+            });
+            data.getProduct = result.data.consumeProduct;
+            proxy.writeQuery({
+                query: FETCH_PRODUCT,
+                variables: { productId },
+                data,
+            });
+            setValue('');
         },
     });
 
