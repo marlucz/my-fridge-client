@@ -17,7 +17,7 @@ import Spinner from 'components/Spinner/Spinner';
 import { expiresIn } from 'utils/date';
 
 import { FETCH_PRODUCT } from 'graphql/queries';
-import { DELETE_PRODUCT } from 'graphql/mutations';
+import { DELETE_PRODUCT, CONSUME_PRODUCT } from 'graphql/mutations';
 
 const ProductPage = props => {
     // eslint-disable-next-line react/destructuring-assignment
@@ -31,6 +31,16 @@ const ProductPage = props => {
     };
 
     const [deleteProduct] = useMutation(DELETE_PRODUCT, {
+        update() {
+            setOpen(false);
+            props.history.push('/');
+        },
+        variables: {
+            productId,
+        },
+    });
+
+    const [consumeProduct] = useMutation(CONSUME_PRODUCT, {
         update() {
             setOpen(false);
             setValue('');
@@ -137,7 +147,11 @@ const ProductPage = props => {
                                 open={isOpen}
                                 content={`You are going to remove ${value} ${unit} of ${name} from your fridge`}
                                 onCancel={() => setOpen(false)}
-                                onConfirm={deleteProduct}
+                                onConfirm={
+                                    value >= quantity
+                                        ? deleteProduct
+                                        : consumeProduct
+                                }
                             />
                         </Card.Content>
                     </Card>

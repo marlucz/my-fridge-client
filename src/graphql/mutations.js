@@ -79,7 +79,22 @@ export const CREATE_PRODUCT = gql`
 `;
 
 export const DELETE_PRODUCT = gql`
-    mutation deleteProduct($productId: ID!, $quantity: Float!) {
-        deleteProduct(productId: $productId, quantity: $quantity)
+    mutation deleteProduct($productId: ID!) {
+        deleteProduct(productId: $productId)
+    }
+`;
+
+export const CONSUME_PRODUCT = gql`
+    mutation consumeProduct($productId: ID!, $quantity: Float!) {
+        consumeProduct(productId: $productId, quantity: $quantity) {
+            id
+            name
+            username
+            quantity
+            unit
+            createdAt
+            expires
+            tag
+        }
     }
 `;
