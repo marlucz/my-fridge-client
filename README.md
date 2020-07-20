@@ -4,9 +4,11 @@
 
 [Server side code for the project](https://github.com/marlucz/my-fridge-server)
 
+[See deployed site here](https://myfridgeclient.netlify.app/)
+
 ## Frontend Technologies
 
-- React
+-   React
 
 ## Usage
 
@@ -28,8 +30,8 @@ See the section about [deployment](https://facebook.github.io/create-react-app/d
 
 ## Done
 
-- Project init
+-   Project init
 
 ## To be done
 
-- everything
+-   everything
