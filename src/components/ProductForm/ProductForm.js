@@ -163,6 +163,7 @@ const ProductForm = ({ client }) => {
                                 onSelectChange(name, value)
                             }
                             options={tags}
+                            value={values.tag}
                         />
                         <InlineWrapper>
                             <StyledHeader>Add Product</StyledHeader>

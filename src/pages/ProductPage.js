@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Redirect } from 'react-router-dom';
 import { useQuery, useMutation } from '@apollo/react-hooks';
 import {
     Card,
@@ -25,6 +26,7 @@ const ProductPage = props => {
     const [productImage, setImage] = useState('');
     const [value, setValue] = useState('');
     const [isOpen, setOpen] = useState(false);
+    const [isRedirect, setRedirect] = useState(false);
 
     const onChange = e => {
         setValue(parseFloat(e.target.value));
@@ -46,7 +48,8 @@ const ProductPage = props => {
                 query: FETCH_PRODUCTS,
                 data,
             });
-            props.history.push('/');
+            setValue('');
+            setRedirect(true);
         },
     });
 
@@ -76,6 +79,10 @@ const ProductPage = props => {
             productId,
         },
     });
+
+    if (isRedirect) {
+        return <Redirect to="/" />;
+    }
 
     if (loading) {
         return <Spinner />;

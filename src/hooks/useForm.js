@@ -20,6 +20,7 @@ export const useForm = (cb, initState = {}) => {
         e.preventDefault();
 
         cb();
+        setValues(initState);
     };
 
     return {
