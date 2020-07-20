@@ -66,5 +66,6 @@
       "eslint --fix",
       "git add"
     ]
-  }
+  },
+  "proxy": "https://my-fridge-server.herokuapp.com/"
 }
