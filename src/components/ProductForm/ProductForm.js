@@ -7,6 +7,7 @@ import { useForm } from 'hooks/useForm';
 import withClient from 'hoc/withClient';
 
 import Spinner from 'components/Spinner/Spinner';
+import FileUpload from 'components/FileUpload/FileUpload';
 
 import { CREATE_PRODUCT } from 'graphql/mutations';
 import { FETCH_PRODUCTS, FETCH_TAGS } from 'graphql/queries';
@@ -49,6 +50,7 @@ const StyledDateInput = styled(Form.Input)`
 const ProductForm = ({ client }) => {
     const [tags, setTags] = useState();
     const [errors, setErrors] = useState({});
+    const [fileToUpload, setFile] = useState();
     const initState = {
         name: '',
         quantity: '',
@@ -85,6 +87,10 @@ const ProductForm = ({ client }) => {
         initState,
     );
 
+    const handleFileUpload = uploadedFile => {
+        setFile(uploadedFile);
+    };
+
     const [createProduct] = useMutation(CREATE_PRODUCT, {
         // eslint-disable-next-line
         update(proxy, result) {
@@ -106,7 +112,7 @@ const ProductForm = ({ client }) => {
             setErrors(err.graphQLErrors[0].extensions.exception.errors);
         },
 
-        variables: values,
+        variables: { ...values, file: fileToUpload },
     });
 
     function createProductCb() {
@@ -165,6 +171,7 @@ const ProductForm = ({ client }) => {
                             options={tags}
                             value={values.tag}
                         />
+                        <FileUpload addFile={handleFileUpload} />
                         <InlineWrapper>
                             <StyledHeader>Add Product</StyledHeader>
                             <Button type="submit" positive icon>
