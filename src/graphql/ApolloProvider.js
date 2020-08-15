@@ -2,13 +2,14 @@ import React from 'react';
 import App from 'App';
 import ApolloClient from 'apollo-client';
 import { InMemoryCache } from 'apollo-cache-inmemory';
-import { createHttpLink } from 'apollo-link-http';
+import { createUploadLink } from 'apollo-upload-client';
+// import { createHttpLink } from "apollo-link-http";
 import { ApolloProvider } from '@apollo/react-hooks';
 import { setContext } from 'apollo-link-context';
 
-const httpLink = createHttpLink({
-    uri: 'https://my-fridge-server.herokuapp.com/',
-    // uri: 'http://localhost:5000/',
+const httpLink = createUploadLink({
+    // uri: 'https://my-fridge-server.herokuapp.com/',
+    uri: 'http://localhost:5000/',
 });
 
 const authLink = setContext(() => {
@@ -24,6 +25,7 @@ const authLink = setContext(() => {
 const client = new ApolloClient({
     link: authLink.concat(httpLink),
     cache: new InMemoryCache(),
+    connectToDevTools: true,
 });
 
 const Provider = () => (
