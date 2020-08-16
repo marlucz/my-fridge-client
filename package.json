@@ -11,11 +11,13 @@
     "apollo-client": "^2.6.10",
     "apollo-link-context": "^1.0.20",
     "apollo-link-http": "^1.5.17",
+    "apollo-upload-client": "^14.1.1",
     "graphql": "^15.1.0",
     "graphql-tag": "^2.10.3",
     "jwt-decode": "^2.2.0",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
+    "react-dropzone": "^11.0.3",
     "react-router-dom": "^5.2.0",
     "react-scripts": "3.4.1",
     "semantic-ui-css": "^2.4.1",
@@ -44,6 +46,7 @@
     ]
   },
   "devDependencies": {
+    "apollo-client-devtools": "^2.3.1",
     "eslint": "^6.6.0",
     "eslint-config-airbnb": "^18.2.0",
     "eslint-config-prettier": "^6.11.0",

@@ -56,6 +56,7 @@ export const CREATE_PRODUCT = gql`
         $unit: String!
         $expires: String!
         $tag: ID!
+        $file: Upload
     ) {
         createProduct(
             productInput: {
@@ -64,6 +65,7 @@ export const CREATE_PRODUCT = gql`
                 unit: $unit
                 expires: $expires
                 tag: $tag
+                file: $file
             }
         ) {
             id
@@ -74,6 +76,11 @@ export const CREATE_PRODUCT = gql`
             createdAt
             expires
             tag
+            image {
+                path
+                filename
+                mimetype
+            }
         }
     }
 `;
