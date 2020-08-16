@@ -18,15 +18,17 @@ const Home = ({ query, tagId }) => {
                     {loading ? (
                         <Spinner />
                     ) : data && data[Object.keys(data)[0]].length > 0 ? (
-                        data[Object.keys(data)[0]].map(product => (
-                            <Grid.Column
-                                key={product.id}
-                                width={4}
-                                style={{ marginBottom: 10 }}
-                            >
-                                <Product product={product} />
-                            </Grid.Column>
-                        ))
+                        data[Object.keys(data)[0]].map(product => {
+                            return (
+                                <Grid.Column
+                                    key={product.id}
+                                    width={4}
+                                    style={{ marginBottom: 10 }}
+                                >
+                                    <Product product={product} />
+                                </Grid.Column>
+                            );
+                        })
                     ) : (
                         <h1>
                             {' '}

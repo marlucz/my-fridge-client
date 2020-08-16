@@ -5,21 +5,24 @@ import { Card, Responsive, Image, Progress } from 'semantic-ui-react';
 import { expiresIn } from 'utils/date';
 
 const Product = ({
-    product: { id, name, createdAt, expires, quantity, unit },
+    product: { id, name, createdAt, expires, quantity, unit, image },
 }) => {
     const [productImage, setImage] = useState('');
 
     useEffect(() => {
-        fetch(
-            `https://pixabay.com/api/?key=${process.env.REACT_APP_PIXABAY_KEY}&q=${name}&image_type=photo&min_height:200`,
-        )
-            .then(res => res.json())
-            .then(({ hits }) => {
-                if (hits.length > 0) {
-                    setImage(hits[0].webformatURL);
-                }
-            });
-    });
+        // eslint-disable-next-line no-unused-expressions
+        image.path !== null
+            ? setImage(image)
+            : fetch(
+                  `https://pixabay.com/api/?key=${process.env.REACT_APP_PIXABAY_KEY}&q=${name}&image_type=photo&min_height:200`,
+              )
+                  .then(res => res.json())
+                  .then(({ hits }) => {
+                      if (hits.length > 0) {
+                          setImage(hits[0].webformatURL);
+                      }
+                  });
+    }, [image]);
 
     const daysToExpiration = expiresIn(expires);
     const creationDate = new Date(createdAt).toLocaleDateString();
@@ -30,14 +33,22 @@ const Product = ({
                 <Responsive
                     {...Responsive.onlyMobile}
                     as={Image}
-                    src={productImage}
+                    src={
+                        image.path !== null
+                            ? `http://localhost:5000/${productImage.path}`
+                            : productImage
+                    }
                     floated="left"
                     size="mini"
                 />
                 <Responsive
                     minWidth={Responsive.onlyTablet.minWidth}
                     as={Image}
-                    src={productImage}
+                    src={
+                        image.path !== null
+                            ? `http://localhost:5000/${productImage.path}`
+                            : productImage
+                    }
                     style={{ marginBottom: 10, maxHeight: 150 }}
                     size="medium"
                 />

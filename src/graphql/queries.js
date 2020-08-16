@@ -11,6 +11,11 @@ export const FETCH_PRODUCT = gql`
             createdAt
             expires
             tag
+            image {
+                path
+                filename
+                mimetype
+            }
         }
     }
 `;
@@ -26,6 +31,11 @@ export const FETCH_PRODUCTS = gql`
             createdAt
             expires
             tag
+            image {
+                path
+                filename
+                mimetype
+            }
         }
     }
 `;
@@ -70,6 +80,11 @@ export const FETCH_PRODUCTS_BY_TAG = gql`
             createdAt
             expires
             tag
+            image {
+                path
+                filename
+                mimetype
+            }
         }
     }
 `;
