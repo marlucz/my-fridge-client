@@ -9,7 +9,7 @@ import { setContext } from 'apollo-link-context';
 
 const httpLink = createUploadLink({
     // uri: 'https://my-fridge-server.herokuapp.com/',
-    uri: 'http://localhost:5000/',
+    uri: 'http://localhost:5000/graphql',
 });
 
 const authLink = setContext(() => {
